@@ -5,6 +5,7 @@
 # Read `man 5 sway` for a complete reference.
 
 exec systemctl --user import-environment WAYLAND_DISPLAY
+exec wl-paste -t text --watch clipman store
 xwayland enable
 
 #================================ Variables ==========================================#
@@ -41,10 +42,10 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 #border_images.focused_inactive /home/eog/.config/sway/borders/focused_inactive.png
 #border_images.unfocused /home/eog/.config/sway/borders/unfocused.png
 #border_images.urgent /home/eog/.config/sway/borders/urgent.png
-border_images.focused /home/eog/.config/sway/shadows.png
-border_images.focused_inactive /home/eog/.config/sway/shadows.png
-border_images.unfocused /home/eog/.config/sway/shadows.png
-border_images.urgent /home/eog/.config/sway/shadows.png
+#border_images.focused /home/eog/.config/sway/shadows.png
+#border_images.focused_inactive /home/eog/.config/sway/shadows.png
+#border_images.unfocused /home/eog/.config/sway/shadows.png
+#border_images.urgent /home/eog/.config/sway/shadows.png
 
 
 
@@ -55,6 +56,12 @@ border_images.urgent /home/eog/.config/sway/shadows.png
 
 output * bg #202020 solid_color
 output HDMI-A-1 mode 1920x1080@74.973Hz
+
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Orchis-grey-dark'
+    gsettings set $gnome-schema icon-theme 'Flatery-Dark'
+}
 
 #=====================================================================================#
 
@@ -72,6 +79,12 @@ output HDMI-A-1 mode 1920x1080@74.973Hz
     # Start your launcher
     bindsym $mod+d exec $menu
 
+    # Start your launcher
+    bindsym $mod+x exec $menu1
+    
+    # take screenshot
+    bindsym $mod+z exec grim -g "$(slurp -d)" - | wl-copy
+
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -83,7 +96,7 @@ output HDMI-A-1 mode 1920x1080@74.973Hz
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+e exec wlogout
 
 #----------------- Moving around:
 
