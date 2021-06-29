@@ -63,6 +63,8 @@ exec_always {
     gsettings set $gnome-schema icon-theme 'Flatery-Dark'
 }
 
+input type:tablet_tool map_from_region 20x25mm 80x70mm
+
 #=====================================================================================#
 
 
